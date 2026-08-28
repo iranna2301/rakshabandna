@@ -413,7 +413,6 @@
   <section class="slide dark" id="finale">
     <h2 class="finale-title fade-up">Happy Raksha<br>Bandhan 🧿❤️</h2>
     <div class="finale-actions fade-up">
-      <button class="pill-btn" id="shareBtn" type="button">Share this link 🔗</button>
       <button class="pill-btn" id="downloadCard" type="button">Download your rakhi 🤞</button>
       <button class="pill-btn ghost" onclick="goTo('intro')" type="button">Watch it again ↺</button>
     </div>
@@ -489,7 +488,7 @@
       posClass: 'second',
       label: 'Gift 2',
       icon: '🎁',
-      img: '/workspaces/rakshabandna/images/ChatGPT Image Aug 28, 2026, 06_27_08 PM.png',
+      img: 'images/ChatGPT Image Aug 28, 2026, 06_27_08 PM.png',
       name: 'Van Heusen Brown Handbag',
       desc: 'Van Heusen Brown Handbag, just for you! 👜🤎'
     },
@@ -649,19 +648,19 @@
     setTimeout(function(){ goTo('finale'); }, 1200);
   };
 
-  /* Share button */
-  document.getElementById('shareBtn').addEventListener('click', function(){
-    if(navigator.share){
-      navigator.share({
-        title: 'Happy Raksha Bandhan 🌸',
-        text: 'I made a special Raksha Bandhan surprise website for you!',
-        url: window.location.href
-      }).catch(function(){});
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard! Share it with your sister ✨');
-    }
-  });
+//   /* Share button */
+//   document.getElementById('shareBtn').addEventListener('click', function(){
+//     if(navigator.share){
+//       navigator.share({
+//         title: 'Happy Raksha Bandhan 🌸',
+//         text: 'I made a special Raksha Bandhan surprise website for you!',
+//         url: window.location.href
+//       }).catch(function(){});
+//     } else {
+//       navigator.clipboard.writeText(window.location.href);
+//       alert('Link copied to clipboard! Share it with your sister ✨');
+//     }
+//   });
 
   /* Download Card Canvas */
   var canvas = document.getElementById('certCanvas');
