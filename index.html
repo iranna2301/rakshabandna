@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Raksha Bandhan 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#231732;
+    --card: rgba(255,255,255,0.85);
+    --card-solid:#FFFFFF;
+    --pink:#FF3FA4;
+    --violet:#7C4DFF;
+    --blue:#4FC9FF;
+    --lime:#C6FF3D;
+    --night:#170B26;
+    --night-2:#0D0616;
+    --shadow: 0 16px 36px rgba(35,23,50,0.16);
+    --glass-border: 1.5px solid rgba(255,255,255,0.7);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Space Grotesk',sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  h1,h2,.display{font-family:'Fredoka',sans-serif;margin:0;letter-spacing:-0.01em;}
+  .script{font-family:'Caveat',cursive;}
+  button{font-family:inherit;cursor:pointer;}
+  p{margin:0;}
+
+  #stage{height:100svh;overflow-y:auto;scroll-snap-type:y mandatory;}
+  .slide{
+    min-height:100svh;scroll-snap-align:start;position:relative;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:80px 20px 60px;overflow:hidden;
+  }
+  .slide.light{
+    background:
+      radial-gradient(circle at 15% 20%, #FFD6EC 0%, transparent 45%),
+      radial-gradient(circle at 85% 15%, #C6E7FF 0%, transparent 45%),
+      radial-gradient(circle at 30% 85%, #E3D6FF 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, #D6FFF0 0%, transparent 45%),
+      #FBF3FF;
+    background-size:200% 200%;
+    animation:driftBg 22s ease-in-out infinite;
+  }
+  @keyframes driftBg{
+    0%{background-position:0% 0%, 100% 0%, 0% 100%, 100% 100%;}
+    50%{background-position:20% 30%, 80% 20%, 15% 85%, 85% 70%;}
+    100%{background-position:0% 0%, 100% 0%, 0% 100%, 100% 100%;}
+  }
+  .slide.dark{
+    background:radial-gradient(ellipse at 50% -10%, #2a1747 0%, var(--night) 55%, var(--night-2) 100%);
+    color:#F4EBFF;
+  }
+
+  .blob{position:absolute;border-radius:50%;filter:blur(40px);opacity:.55;pointer-events:none;z-index:0;}
+
+  /* Reveal animations */
+  .fade-up{opacity:0;transform:translateY(22px);transition:opacity .6s ease, transform .6s ease;}
+  .slide.in .fade-up{opacity:1;transform:translateY(0);}
+  .slide.in .fade-up:nth-child(1){transition-delay:.02s;}
+  .slide.in .fade-up:nth-child(2){transition-delay:.10s;}
+  .slide.in .fade-up:nth-child(3){transition-delay:.18s;}
+  .slide.in .fade-up:nth-child(4){transition-delay:.26s;}
+  .slide.in .fade-up:nth-child(5){transition-delay:.34s;}
+
+  #dotNav{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:60;}
+  #dotNav button{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--violet);background:transparent;padding:0;transition:transform .2s ease, background .2s ease;}
+  #dotNav button[aria-current="true"]{background:linear-gradient(135deg,var(--pink),var(--violet));transform:scale(1.4);border-color:transparent;}
+
+  .tag-pill{
+    position:relative;z-index:1;
+    display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    background:var(--card);backdrop-filter:blur(10px);border:var(--glass-border);
+    padding:7px 18px;border-radius:999px;margin-bottom:14px;transform:rotate(-2deg);
+    box-shadow:0 6px 16px rgba(124,77,255,0.15);
+  }
+  .dark .tag-pill{background:rgba(255,255,255,0.08);border-color:rgba(244,235,255,0.3);color:#F4EBFF;}
+
+  .pill-btn{
+    position:relative;z-index:1;
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,var(--pink),var(--violet));
+    color:#fff;font-weight:700;font-size:15px;padding:14px 28px;border-radius:999px;border:none;
+    box-shadow:0 10px 24px rgba(255,63,164,0.35);
+    transition:transform .18s ease, box-shadow .2s ease;
+  }
+  .pill-btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 14px 30px rgba(124,77,255,0.4);}
+  .pill-btn.ghost{background:transparent;color:inherit;border:1.5px solid currentColor;box-shadow:none;}
+  .pill-btn.lime{background:linear-gradient(135deg,var(--lime),#8CFF6B);color:var(--ink);box-shadow:0 10px 24px rgba(198,255,61,0.35);}
+
+  .doodle{position:absolute;font-size:2rem;opacity:.9;user-select:none;animation:floaty 5s ease-in-out infinite;z-index:0;}
+  @keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+
+  /* ---------------- INTRO ---------------- */
+  #intro{gap:14px;text-align:center;}
+  .intro-scallop{position:absolute;top:0;left:0;right:0;height:24px;background-image:radial-gradient(circle at 11px 24px, transparent 10px, var(--violet) 11px);background-size:22px 24px;background-repeat:repeat-x;z-index:1;}
+  .intro-title{position:relative;z-index:1;font-size:clamp(2.2rem,8vw,3.2rem);line-height:1.05;}
+  .speech-bubble{position:relative;z-index:1;background:var(--card);backdrop-filter:blur(10px);border:var(--glass-border);border-radius:999px;padding:9px 18px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow);}
+  .photo-frame{
+    position:relative;z-index:1;margin-top:16px;width:min(230px,65vw);aspect-ratio:1/1;
+    background:var(--card-solid);border:2px solid var(--ink);border-radius:18px;
+    display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);
+  }
+  .photo-frame .tape{position:absolute;top:-10px;left:-12px;width:55px;height:20px;background:rgba(255,63,164,0.65);transform:rotate(-8deg);}
+  .photo-frame .critter{font-size:4.8rem;animation:bounce 1.8s ease-in-out infinite;}
+  @keyframes bounce{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-8px) rotate(2deg);}}
+
+  /* ---------------- GIFTS (SURPRISE HIDDEN BOXES) ---------------- */
+  .gift-arena{
+    position:relative;z-index:1;max-width:460px;width:100%;height:270px;margin-top:6px;
+  }
+  .gift-box{
+    width:30%;height:150px;background:linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+    border:2px solid var(--ink);border-radius:18px;
+    position:absolute;overflow:hidden;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    transition:transform .2s ease, border-color .2s ease;
+    padding:8px;text-align:center;animation:wiggle 4s ease-in-out infinite;
+  }
+  @keyframes wiggle{0%,100%{transform:rotate(-1.5deg);}50%{transform:rotate(1.5deg);}}
+  
+  .gift-box .ribbon-v{position:absolute;top:0;bottom:0;left:calc(50% - 6px);width:12px;background:var(--pink);}
+  .gift-box .ribbon-h{position:absolute;left:0;right:0;top:calc(50% - 6px);height:12px;background:var(--pink);}
+  .gift-box .box-icon{font-size:2.4rem;z-index:2;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1));}
+  .gift-box .label{font-weight:800;font-size:12px;z-index:2;background:rgba(255,255,255,0.95);padding:2px 8px;border-radius:12px;border:1px solid var(--ink);}
+  
+  .gift-box.static.first{left:3%;top:28%;}
+  .gift-box.static.second{left:35%;top:28%;}
+  .gift-box.runner{right:3%;top:28%;transition:top .4s cubic-bezier(.3,.9,.3,1), left .4s cubic-bezier(.3,.9,.3,1), transform .2s ease;z-index:5;}
+  .gift-box.picked{border-color:var(--violet);border-width:3px;transform:scale(1.08) rotate(0deg) !important;animation:none;}
+
+  .gift-reveal{position:relative;z-index:1;margin-top:14px;text-align:center;opacity:0;max-height:0;overflow:hidden;transition:all .4s ease;}
+  .gift-reveal.show{opacity:1;max-height:1000px;}
+  .gift-reveal .reveal-img{width:130px;height:130px;object-fit:cover;border-radius:18px;border:2.5px solid var(--ink);box-shadow:var(--shadow);margin-bottom:6px;background:#fff;}
+  .gift-reveal .name{font-family:'Fredoka',sans-serif;font-size:1.25rem;font-weight:700;}
+  
+  /* All Gifts Unboxed Gallery */
+  .all-gifts-preview{
+    display:flex;gap:12px;justify-content:center;margin-top:12px;flex-wrap:wrap;
+  }
+  .mini-gift-card{
+    background:#ffffff;border:2px solid var(--ink);border-radius:14px;padding:8px 6px;width:105px;text-align:center;box-shadow:0 6px 14px rgba(0,0,0,0.08);
+  }
+  .mini-gift-card img{width:100%;height:75px;object-fit:cover;border-radius:8px;border:1px solid #ddd;margin-bottom:4px;background:#f9f9f9;}
+  .mini-gift-card span{font-size:10.5px;font-weight:800;display:block;line-height:1.2;color:var(--ink);}
+
+  .addr-form{
+    position:relative;z-index:1;margin-top:16px;background:var(--card);backdrop-filter:blur(12px);border:var(--glass-border);border-radius:22px;
+    padding:20px;max-width:380px;width:100%;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .addr-form label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;opacity:.7;}
+  .addr-form input,.addr-form textarea{
+    width:100%;padding:11px 12px;border-radius:12px;border:1.5px solid rgba(35,23,50,0.2);
+    font-family:'Space Grotesk',sans-serif;font-size:14px;background:#fff;color:var(--ink);
+  }
+  .addr-form textarea{resize:vertical;min-height:55px;}
+  .addr-confirm{margin-top:4px;font-size:13px;font-weight:700;color:var(--violet);display:none;}
+  .addr-confirm.show{display:block;}
+
+  /* ---------------- GALLERY MEMES ---------------- */
+  #gallery{padding-top:0;}
+  .scallop{position:relative;z-index:1;width:100%;height:22px;background-image:radial-gradient(circle at 11px 0, transparent 10px, var(--violet) 11px);background-size:22px 22px;background-repeat:repeat-x;margin-top:60px;}
+  .gallery-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;padding:24px 20px 0;width:100%;}
+  .meme-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:14px;max-width:440px;width:100%;margin-top:18px;}
+  .polaroid{
+    background:var(--card-solid);border:1.5px solid rgba(35,23,50,0.12);border-radius:12px;
+    padding:8px 8px 14px;box-shadow:var(--shadow);position:relative;text-align:center;
+  }
+  .polaroid img{width:100%;height:115px;object-fit:cover;border-radius:8px;}
+  .polaroid .cap{font-family:'Caveat',cursive;font-size:1.15rem;color:var(--ink);margin-top:6px;}
+
+  /* ---------------- MATCH GAME ---------------- */
+  .match-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:380px;width:100%;margin-top:8px;}
+  .rakhi-card{aspect-ratio:3/4;background:var(--card-solid);border:2px solid var(--ink);border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:transform .2s ease, border-color .2s ease;font-size:2.2rem;}
+  .rakhi-card.mystery{background:linear-gradient(135deg,var(--pink),var(--violet));color:#fff;font-weight:800;}
+  .rakhi-card.picked{border-color:var(--lime);border-width:3px;transform:scale(1.06);}
+
+  /* ---------------- NOTE ---------------- */
+  .note-card{position:relative;z-index:1;background:var(--card-solid);color:var(--ink);border-radius:20px;padding:32px 24px;max-width:500px;width:100%;box-shadow:0 24px 50px rgba(0,0,0,0.45);}
+  .note-salutation{font-family:'Caveat',cursive;font-size:1.7rem;color:var(--violet);text-align:center;margin-bottom:12px;}
+  .note-body{font-family:'Space Grotesk',sans-serif;font-size:0.98rem;line-height:1.7;text-align:center;}
+
+  /* ---------------- SONG PLAYER ---------------- */
+  #song{gap:16px;text-align:center;}
+  .vinyl{
+    position:relative;z-index:1;width:140px;height:140px;border-radius:50%;
+    background:radial-gradient(circle, #251631 25%, #0e0716 65%, #3a0ca3 100%);
+    border:4px solid #fff;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(0,0,0,.5);
+    animation:spin 4s linear infinite;
+  }
+  .vinyl.paused{animation-play-state:paused;}
+  .vinyl .label{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--violet));display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .audio-eq{display:flex;gap:4px;height:24px;align-items:center;}
+  .eq-bar{width:4px;background:var(--pink);border-radius:2px;height:6px;}
+  .playing .eq-bar:nth-child(1){animation:jump 0.6s infinite alternate;}
+  .playing .eq-bar:nth-child(2){animation:jump 0.9s infinite alternate 0.2s;}
+  .playing .eq-bar:nth-child(3){animation:jump 0.7s infinite alternate 0.4s;}
+  .playing .eq-bar:nth-child(4){animation:jump 0.8s infinite alternate 0.1s;}
+  @keyframes jump{0%{height:4px;}100%{height:24px;}}
+
+  /* ---------------- BROTHER QUIZ ---------------- */
+  #quiz{gap:20px;text-align:center;}
+  .quiz-card{
+    position:relative;z-index:1;background:var(--card);backdrop-filter:blur(12px);border:var(--glass-border);
+    border-radius:24px;padding:32px 24px;max-width:380px;width:100%;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;align-items:center;gap:16px;
+  }
+  .quiz-title{font-size:clamp(1.7rem,6vw,2.2rem);color:var(--ink);line-height:1.2;}
+  .quiz-btn-group{display:flex;gap:12px;width:100%;justify-content:center;}
+  .quiz-yes-btn{flex:1;justify-content:center;}
+  .quiz-feedback{font-family:'Caveat',cursive;font-size:1.6rem;color:var(--pink);min-height:30px;opacity:0;transition:opacity .3s ease;}
+  .quiz-feedback.show{opacity:1;}
+
+  /* ---------------- FINALE ---------------- */
+  #finale{gap:20px;text-align:center;}
+  .finale-title{font-size:clamp(2.4rem,8vw,3.6rem);line-height:1.05;}
+  .finale-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+  canvas#certCanvas{display:none;}
+
+  #confettiLayer{position:fixed;inset:0;pointer-events:none;z-index:90;overflow:hidden;}
+  .confetti-piece{position:absolute;top:-16px;width:8px;height:13px;opacity:.9;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(520deg);opacity:.3;}}
+</style>
+</head>
+<body>
+
+<div id="confettiLayer"></div>
+
+<!-- Background Original Audio -->
+<audio id="rakhiAudio" preload="auto" loop>
+  <source src="https://cdnsongs.com/music/data/Hindi/197110/Hare_Rama_Hare_Krishna/128/Phoolon_Ka_Taron_Ka_Part_1.mp3" type="audio/mpeg">
+  <source src="https://pagalnew.com/128-download/17696" type="audio/mpeg">
+</audio>
+
+<nav id="dotNav">
+  <button data-target="intro" aria-current="true"></button>
+  <button data-target="hero"></button>
+  <button data-target="gifts"></button>
+  <button data-target="gallery"></button>
+  <button data-target="match"></button>
+  <button data-target="note"></button>
+  <button data-target="song"></button>
+  <button data-target="quiz"></button>
+  <button data-target="finale"></button>
+</nav>
+
+<div id="stage">
+
+  <!-- INTRO -->
+  <section class="slide light" id="intro">
+    <div class="blob" style="width:220px;height:220px;background:var(--pink);top:-40px;left:-60px;"></div>
+    <div class="blob" style="width:180px;height:180px;background:var(--blue);bottom:0;right:-50px;"></div>
+    <div class="intro-scallop"></div>
+    <h1 class="intro-title fade-up">Happyyyy Raksha<br>Bandhan 🌼</h1>
+    <span class="speech-bubble fade-up">i made this specially for you, my cute sister</span>
+    <div class="photo-frame fade-up">
+      <div class="tape"></div>
+      <span class="critter">🐱</span>
+    </div>
+    <p style="font-family:'Fredoka',sans-serif;font-size:1.15rem;margin-top:14px;" class="fade-up">Wanna see what I made?</p>
+    <button class="pill-btn fade-up" id="letssSee" type="button">Letss seee ✨</button>
+  </section>
+
+  <!-- HERO -->
+  <section class="slide light" id="hero">
+    <span class="doodle" style="top:14%;left:9%;">🧸</span>
+    <span class="doodle" style="bottom:16%;left:12%;">✨</span>
+    <h1 class="intro-title fade-up" style="font-size:clamp(2.4rem,8vw,3.8rem);">Dedicated to<br><em style="font-style:normal;color:var(--pink);">youuuu</em> 🌼</h1>
+    <span style="font-family:'Caveat',cursive;font-size:1.8rem;color:var(--pink);" class="fade-up">yayayy</span>
+    <p style="max-width:400px;text-align:center;font-size:14px;opacity:0.8;margin-top:6px;" class="fade-up">A whole personalized website just for my favourite sister. Surprise gifts right ahead!</p>
+    <button class="pill-btn fade-up" id="takeMeIn" type="button" style="margin-top:14px;">Take me in →</button>
+  </section>
+
+  <!-- GIFTS (SURPRISE HIDDEN BOXES) -->
+  <section class="slide light" id="gifts">
+    <span class="tag-pill fade-up">Surprise Gifts</span>
+    <h2 class="intro-title fade-up" style="font-size:clamp(2rem,7vw,2.6rem);">Three mystery gifts,<br>pick yours</h2>
+    <p style="font-size:13px;opacity:0.75;font-weight:600;margin-bottom:10px;" class="fade-up">No peeking — tap a mystery box to unwrap it!</p>
+    
+    <div class="gift-arena fade-up" id="giftArena"></div>
+   
+    
+    <!-- Revealed Gift Display -->
+    <div class="gift-reveal" id="giftReveal">
+      <img class="reveal-img" id="giftRevealImg" src="" alt="Revealed gift">
+      <div class="name" id="giftItemName"></div>
+      
+      <!-- After clicking one, reveal ALL 3 gifts in sequence -->
+      <p style="font-size:12px;font-weight:800;margin-top:14px;color:var(--violet);">All 3 Surprise Gifts in Sequence:</p>
+      <div class="all-gifts-preview" id="allGiftsPreview"></div>
+    </div>
+
+    <!-- Address details only (no name field) -->
+    <form class="addr-form" id="addrForm" style="display:none;">
+      <div>
+        <label for="addrPhone">Phone number</label>
+        <input type="tel" id="addrPhone" placeholder="Enter your mobile number" required>
+      </div>
+      <div>
+        <label for="addrLine">Delivery address to send gift</label>
+        <textarea id="addrLine" placeholder="Enter full delivery address" required></textarea>
+      </div>
+      <button class="pill-btn lime" type="submit">Send my address 🎁</button>
+      <p class="addr-confirm" id="addrConfirm">Details ready — opening email to send directly to your brother!</p>
+    </form>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="slide light" id="gallery">
+    <div class="scallop"></div>
+    <div class="gallery-inner">
+      <h2 class="intro-title fade-up" style="font-size:clamp(1.9rem,7vw,2.6rem);text-align:center;">Our personal<br>gallery</h2>
+      <div class="meme-grid fade-up">
+        <div class="polaroid">
+          <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&auto=format&fit=crop&q=80" alt="Cat meme">
+          <p class="cap">You demanding food 24/7 😂</p>
+        </div>
+        <div class="polaroid">
+          <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=400&auto=format&fit=crop&q=80" alt="Cat glasses">
+          <p class="cap">Certified drama queen 💅</p>
+        </div>
+        <div class="polaroid">
+          <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=400&auto=format&fit=crop&q=80" alt="Cat chill">
+          <p class="cap">Have some chill 🧘‍♀️</p>
+        </div>
+        <div class="polaroid">
+          <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=400&auto=format&fit=crop&q=80" alt="Cat nap">
+          <p class="cap">Best sibling duo forever ✨</p>
+        </div>
+      </div>
+      <button class="pill-btn fade-up" onclick="goTo('match')" style="margin-top:18px;">Next Step →</button>
+    </div>
+  </section>
+
+  <!-- MATCH GAME -->
+  <section class="slide light" id="match">
+    <span class="tag-pill fade-up">Match them up</span>
+    <h2 class="intro-title fade-up" style="font-size:clamp(1.9rem,7vw,2.5rem);text-align:center;">Choose the correct<br>rakhi for me</h2>
+    <div class="match-grid fade-up" id="matchGrid">
+      <button class="rakhi-card" onclick="pickRakhi(this)">🧿</button>
+      <button class="rakhi-card" onclick="pickRakhi(this)">💮</button>
+      <button class="rakhi-card mystery" onclick="pickRakhi(this)">?</button>
+      <button class="rakhi-card" onclick="pickRakhi(this)">🌺</button>
+      <button class="rakhi-card" onclick="pickRakhi(this)">🌻</button>
+      <button class="rakhi-card" onclick="pickRakhi(this)">✨</button>
+    </div>
+    <button class="pill-btn fade-up" id="matchNext" onclick="goTo('note')" style="margin-top:18px;display:none;">Read Note 💌</button>
+  </section>
+
+  <!-- NOTE -->
+  <section class="slide dark" id="note">
+    <div class="note-card fade-up">
+      <p class="note-salutation">Dear Cute Sister my cute sister,</p>
+      <div class="note-body">
+        <p>I don't say it enough, but I really got lucky having you as my sibling.</p>
+        <p>We've grown up, changed, argued over the dumbest things, and somehow made it through all of it together.</p>
+        <p>No matter how much life changes, you'll always be someone I can count on — and someone who can count on me.</p>
+      </div>
+      <p style="font-family:'Caveat',cursive;font-size:1.3rem;text-align:right;color:var(--pink);margin-top:10px;">— your brother ❤️</p>
+    </div>
+    <button class="pill-btn fade-up" onclick="goTo('song')" style="margin-top:20px;">Play Our Song 🎵</button>
+  </section>
+
+  <!-- SONG PLAYER -->
+  <section class="slide dark" id="song">
+    <span class="tag-pill fade-up">Press Play</span>
+    <div class="vinyl paused fade-up" id="vinyl"><div class="label">🎵</div></div>
+    <h2 class="intro-title fade-up" style="font-size:1.8rem;margin-top:6px;">Phoolon Ka Taaron Ka</h2>
+    <p style="font-size:13px;opacity:0.75;font-weight:600;" class="fade-up">Sabka Kehna Hai • Dedicated to my Sister 🌸</p>
+    
+    <div style="margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:10px;" class="fade-up">
+      <div class="audio-eq" id="audioEq">
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+      </div>
+      <button class="pill-btn" id="playAudioBtn" type="button" style="padding:12px 32px;font-size:16px;">Play Music ▶</button>
+    </div>
+
+    <button class="pill-btn fade-up" onclick="goTo('quiz')" style="margin-top:18px;">Next: Quick Quiz →</button>
+  </section>
+
+  <!-- QUIZ PAGE BEFORE DOWNLOAD -->
+  <section class="slide light" id="quiz">
+    <span class="tag-pill fade-up">Quick Truth Check</span>
+    <div class="quiz-card fade-up">
+      <span style="font-size:3.2rem;">👑✨</span>
+      <h2 class="quiz-title">Is your brother handsome?</h2>
+      <p style="font-size:13.5px;opacity:0.75;font-weight:600;">Choose carefully (honest answer only 😉):</p>
+      
+      <div class="quiz-btn-group">
+        <button class="pill-btn quiz-yes-btn" type="button" onclick="handleQuizAnswer()">YES! 😍</button>
+        <button class="pill-btn quiz-yes-btn" type="button" onclick="handleQuizAnswer()">YES 100% 😎</button>
+      </div>
+
+      <p class="quiz-feedback" id="quizFeedback">I knew you had great taste! Moving to final surprise... ✨</p>
+    </div>
+  </section>
+
+  <!-- FINALE -->
+  <section class="slide dark" id="finale">
+    <h2 class="finale-title fade-up">Happy Raksha<br>Bandhan 🧿❤️</h2>
+    <div class="finale-actions fade-up">
+      <button class="pill-btn" id="shareBtn" type="button">Share this link 🔗</button>
+      <button class="pill-btn" id="downloadCard" type="button">Download your rakhi 🤞</button>
+      <button class="pill-btn ghost" onclick="goTo('intro')" type="button">Watch it again ↺</button>
+    </div>
+    <canvas id="certCanvas" width="1000" height="700"></canvas>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Navigation */
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var dots = Array.prototype.slice.call(document.querySelectorAll('#dotNav button'));
+
+  function goTo(id){
+    var el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  window.goTo = goTo;
+
+  dots.forEach(function(d){ d.addEventListener('click', function(){ goTo(d.dataset.target); }); });
+  document.getElementById('letssSee').addEventListener('click', function(){ goTo('hero'); });
+  document.getElementById('takeMeIn').addEventListener('click', function(){ goTo('gifts'); });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        dots.forEach(function(d){ d.setAttribute('aria-current', d.dataset.target === entry.target.id ? 'true' : 'false'); });
+      }
+    });
+  }, {root:stage, threshold:0.35});
+  slides.forEach(function(s){ io.observe(s); });
+
+  /* Confetti */
+  function launchConfetti(){
+    var layer = document.getElementById('confettiLayer');
+    var colors = ['#FF3FA4','#7C4DFF','#4FC9FF','#C6FF3D'];
+    for(var i=0;i<40;i++){
+      var p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = (Math.random()*100) + 'vw';
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+      p.style.animationDuration = (2 + Math.random()*1.4) + 's';
+      p.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+      layer.appendChild(p);
+      (function(el){ setTimeout(function(){ el.remove(); }, 4000); })(p);
+    }
+  }
+
+  /* 3 Surprise Gifts: Hidden until clicked + Generic labels */
+  var giftArena = document.getElementById('giftArena');
+  var giftReveal = document.getElementById('giftReveal');
+  var giftRevealImg = document.getElementById('giftRevealImg');
+  var giftItemName = document.getElementById('giftItemName');
+  var allGiftsPreview = document.getElementById('allGiftsPreview');
+  var addrForm = document.getElementById('addrForm');
+  var giftPicked = false;
+
+  var giftConfigs = [
+    {
+      posClass: 'first',
+      label: 'Gift 1',
+      icon: '🎁',
+      img: 'images/ChatGPT Image Aug 28, 2026, 06_28_03 PM.png',
+      name: 'Allen Solly Black Handbag',
+      desc: 'Allen Solly Black Handbag, just for you! 👜🖤'
+    },
+    {
+      posClass: 'second',
+      label: 'Gift 2',
+      icon: '🎁',
+      img: 'images/ChatGPT Image Aug 28, 2026, 06_28_03 PM.png',
+      name: 'Van Heusen Brown Handbag',
+      desc: 'Van Heusen Brown Handbag, just for you! 👜🤎'
+    },
+    {
+      posClass: 'runner',
+      label: 'Gift 3',
+      icon: '🎁',
+      img: 'images/ChatGPT Image Aug 28, 2026, 06_29_21 PM.png',
+      name: 'Samsung Galaxy Z Flip 8',
+      desc: 'Samsung Galaxy Z Flip 8 (You caught the phone!) 📱💖'
+    }
+  ];
+
+  function renderAllGiftsShowcase(){
+    allGiftsPreview.innerHTML = '';
+    giftConfigs.forEach(function(g){
+      var mini = document.createElement('div');
+      mini.className = 'mini-gift-card';
+      mini.innerHTML = '<img src="' + g.img + '" alt="' + g.name + '"><span>' + g.name + '</span>';
+      allGiftsPreview.appendChild(mini);
+    });
+  }
+
+  // Gift 1 & 2 (Mystery wrapped box)
+  function makeMysteryGift(config){
+    var box = document.createElement('button');
+    box.type = 'button';
+    box.className = 'gift-box static ' + config.posClass;
+    box.innerHTML = '<span class="ribbon-v"></span><span class="ribbon-h"></span>' +
+                    '<span class="box-icon">' + config.icon + '</span>' +
+                    '<span class="label">' + config.label + '</span>';
+    box.addEventListener('click', function(){
+      if(giftPicked) return;
+      giftPicked = true;
+      box.classList.add('picked');
+      box.querySelector('.label').textContent = 'Unboxed! 🎉';
+      giftRevealImg.src = config.img;
+      giftItemName.textContent = config.desc;
+      renderAllGiftsShowcase();
+      giftReveal.classList.add('show');
+      addrForm.style.display = 'flex';
+      launchConfetti();
+    });
+    giftArena.appendChild(box);
+  }
+
+  makeMysteryGift(giftConfigs[0]);
+  makeMysteryGift(giftConfigs[1]);
+
+  // Gift 3 (Dodging mystery box - labeled simply as "Gift 3")
+  var runner = document.createElement('button');
+  runner.type = 'button';
+  runner.className = 'gift-box runner';
+  runner.innerHTML = '<span class="ribbon-v"></span><span class="ribbon-h"></span>' +
+                     '<span class="box-icon">🎁</span>' +
+                     '<span class="label">Gift 3</span>';
+  giftArena.appendChild(runner);
+
+  function dodge(){
+    var maxLeft = 65, maxTop = 50;
+    var left = 2 + Math.random()*maxLeft;
+    var top = 2 + Math.random()*maxTop;
+    runner.style.left = left + '%';
+    runner.style.top = top + '%';
+    runner.style.right = 'auto';
+    launchConfetti();
+  }
+
+  ['pointerdown','touchstart','click'].forEach(function(evt){
+    runner.addEventListener(evt, function(e){
+      e.preventDefault();
+      dodge();
+    });
+  });
+
+  /* Address Form */
+  addrForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var phone = document.getElementById('addrPhone').value.trim();
+    var line = document.getElementById('addrLine').value.trim();
+    var body = 'Phone: ' + phone + '\nAddress: ' + line + '\nGift Picked: ' + giftItemName.textContent;
+    var mailto = 'mailto:?subject=' + encodeURIComponent('Raksha Bandhan Gift Delivery Address') + '&body=' + encodeURIComponent(body);
+    window.location.href = mailto;
+    document.getElementById('addrConfirm').classList.add('show');
+  });
+
+  /* Rakhi Match */
+  window.pickRakhi = function(card){
+    document.querySelectorAll('.rakhi-card').forEach(function(c){ c.classList.remove('picked'); });
+    card.classList.add('picked');
+    document.getElementById('matchNext').style.display = 'inline-flex';
+    launchConfetti();
+  };
+
+  /* Reliable Dual-Engine Music Player */
+  var audio = document.getElementById('rakhiAudio');
+  var playBtn = document.getElementById('playAudioBtn');
+  var vinyl = document.getElementById('vinyl');
+  var audioEq = document.getElementById('audioEq');
+  var isPlaying = false;
+  var audioCtx = null;
+  var synthInterval = null;
+
+  var notes = [
+    {f:261.63, d:400}, {f:293.66, d:400}, {f:329.63, d:400}, {f:349.23, d:400}, 
+    {f:392.00, d:600}, {f:349.23, d:400}, {f:329.63, d:400}, {f:293.66, d:400}, 
+    {f:329.63, d:600}, {f:261.63, d:700}
+  ];
+  var nIdx = 0;
+
+  function playTone(freq, dur){
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur/1000);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + dur/1000);
+  }
+
+  playBtn.addEventListener('click', function(){
+    if(!isPlaying){
+      isPlaying = true;
+      playBtn.textContent = 'Pause Music ⏸';
+      vinyl.classList.remove('paused');
+      audioEq.classList.add('playing');
+
+      var promise = audio.play();
+      if(promise !== undefined){
+        promise.catch(function(){
+          synthInterval = setInterval(function(){
+            if(!isPlaying) return;
+            var cur = notes[nIdx];
+            playTone(cur.f, cur.d);
+            nIdx = (nIdx + 1) % notes.length;
+          }, 450);
+        });
+      }
+    } else {
+      isPlaying = false;
+      playBtn.textContent = 'Play Music ▶';
+      vinyl.classList.add('paused');
+      audioEq.classList.remove('playing');
+      audio.pause();
+      if(synthInterval) clearInterval(synthInterval);
+    }
+  });
+
+  /* Brother Handsome Quiz */
+  window.handleQuizAnswer = function(){
+    document.getElementById('quizFeedback').classList.add('show');
+    launchConfetti();
+    setTimeout(function(){ goTo('finale'); }, 1200);
+  };
+
+  /* Share button */
+  document.getElementById('shareBtn').addEventListener('click', function(){
+    if(navigator.share){
+      navigator.share({
+        title: 'Happy Raksha Bandhan 🌸',
+        text: 'I made a special Raksha Bandhan surprise website for you!',
+        url: window.location.href
+      }).catch(function(){});
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copied to clipboard! Share it with your sister ✨');
+    }
+  });
+
+  /* Download Card Canvas */
+  var canvas = document.getElementById('certCanvas');
+  var ctx = canvas.getContext('2d');
+  function drawCard(){
+    var W = canvas.width, H = canvas.height;
+    var grad = ctx.createLinearGradient(0,0,W,H);
+    grad.addColorStop(0,'#FFE1F3'); grad.addColorStop(0.5,'#EDE4FF'); grad.addColorStop(1,'#DFF6FF');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle = '#7C4DFF'; ctx.lineWidth = 8; ctx.strokeRect(22,22,W-44,H-44);
+
+    ctx.fillStyle = '#231732'; ctx.textAlign = 'center';
+    ctx.font = '700 20px Space Grotesk, sans-serif'; ctx.fillText('R A K S H A   B A N D H A N', W/2, 100);
+    ctx.font = '600 58px Fredoka, sans-serif'; ctx.fillText('Happy Raksha Bandhan', W/2, 200);
+    ctx.font = '400 22px Space Grotesk, sans-serif';
+    ctx.fillText("No matter how much life changes, you'll always be someone I can count on.", W/2, 300);
+    ctx.font = '400 26px Space Grotesk, sans-serif'; ctx.fillStyle = '#FF3FA4'; ctx.fillText('with love, always ❤️', W/2, 450);
+  }
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(drawCard); } else { drawCard(); }
+
+  document.getElementById('downloadCard').addEventListener('click', function(){
+    drawCard();
+    launchConfetti();
+    var link = document.createElement('a');
+    link.download = 'raksha-bandhan-card.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+})();
+</script>
+</body>
+</html>
